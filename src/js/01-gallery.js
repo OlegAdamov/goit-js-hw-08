@@ -1,5 +1,9 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
+import "../css/common.css";
+import "../css/01-gallery.css";
 
 const onGalleryContainer = document.querySelector('.gallery');
 const onItemsGallery = createItemsGallery(galleryItems);
@@ -9,48 +13,26 @@ onGalleryContainer.insertAdjacentHTML('beforeend', onItemsGallery);
 function createItemsGallery(galleryItems) { 
     return galleryItems.map(({ preview, original, description }) => {
         return `
-                    <div class="gallery__item">
-            <a class="gallery__link" href="${original}">
+        <li>
+            <a class="gallery__item" href="${original}">
             <img
                 class="gallery__image"
                 src="${preview}"
-                data-source="${original}"
                 alt="${description}"
                 />
                 </a>
-        </div>
+                </li>
         `
     }).join('');
 }
 
-onGalleryContainer.addEventListener('click', onItemsGalleryItemClick);
-
-function onItemsGalleryItemClick(event) {
-    event.preventDefault();
-    if (event.target.classList.contains("gallery")) return;
-    const source = event.target.dataset.source;
-   
-    const instance = basicLightbox.create(`<img src="${source}">`, {
-
-	closable: true,
-
-	className: '',
-
-        onShow: (instance) => {
-            document.addEventListener('keydown', keyPress)
-    },
-
-        onClose: (instance) => {
-            document.removeEventListener('keydown', keyPress);
-    }
+const lightbox = new SimpleLightbox('.gallery a', {
+    captionsData: "alt",
+    captionType: "alt",
+    captionDelay: 250,
 });
-    instance.show();
 
-    function keyPress(event) {
-        if (event.key === "Escape") {
-            instance.close();
-        }
-    }
 
-    }
+
+
 
