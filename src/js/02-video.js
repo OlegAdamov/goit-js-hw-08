@@ -12,18 +12,9 @@ const onPlay = function (data) {
 };
 
 player.on('timeupdate', throttle(onPlay, 1000));
-      const saveTime = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      const saveTime = localStorage.getItem(STORAGE_KEY);
 
+      if (saveTime) {
 player.setCurrentTime(saveTime).then(function (seconds) {
     
-}).catch(function(error) {
-    switch (error.name) {
-        case 'RangeError':
-            // the time was less than 0 or greater than the video’s duration
-            break;
-
-        default:
-            // some other error occurred
-            break;
-    }
-});
+})};
